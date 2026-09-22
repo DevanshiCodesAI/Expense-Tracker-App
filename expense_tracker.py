@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import streamlit as st
 
-if 'expences' not in st.session_state:
+if 'expenses' not in st.session_state:
     st.session_state.expenses = pd.DataFrame(columns=['Date', 'Category', 'Amount', 'Description'])
 
 def add_expense(date, category, amount, description):
@@ -28,13 +28,14 @@ def download_expenses():
 def visualize_expenses():
     if not st.session_state.expenses.empty:
         fig, ax = plt.subplots()
-        sns.barplot(x='Category', y='Amount', data=st.session_state.expenses, estimator=sum, ci=None, ax=ax)
+        sns.barplot(x='Category', y='Amount', data=st.session_state.expenses, estimator=sum, errorbar=None, ax=ax)
         plt.xticks(rotation=45)
         plt.title('Total Expenses by Category')
         plt.ylabel('Total Amount')
         plt.xlabel('Category')
-        st.pyplot(fig)
-
+        st.pyplot(fig) 
+        plt.close(fig)
+    
     else:
         st.warning("No expenses to visualize. Please add some expenses first.")
 
